@@ -152,6 +152,12 @@ typedef void              *EGLNativeDisplayType;
 typedef khronos_uintptr_t  EGLNativePixmapType;
 typedef khronos_uintptr_t  EGLNativeWindowType;
 
+#elif defined(__3DS__)
+
+typedef void              *EGLNativeDisplayType;
+typedef khronos_uintptr_t  EGLNativePixmapType;
+typedef khronos_uintptr_t  EGLNativeWindowType;
+
 #else
 #error "Platform not recognized"
 #endif

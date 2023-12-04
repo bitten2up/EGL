@@ -5,19 +5,7 @@ if (UNIX AND NOT APPLE)
   option(EGL_UNIX_USE_WAYLAND "Define functions for Wayland platform" OFF)
 endif()
 
-if(WIN32)
-  set(EGL_PLATFORM_SOURCES
-      ${CMAKE_CURRENT_LIST_DIR}/src/egl_windows.cpp)
-else()
-  if(UNIX AND NOT APPLE)
-    if (ANDROID OR EGL_UNIX_USE_WAYLAND)
-      set(EGL_PLATFORM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/egl_wayland_stub.cpp)
-    else()
-      set(EGL_PLATFORM_SOURCES
-          ${CMAKE_CURRENT_LIST_DIR}/src/egl_x11.cpp)
-    endif()
-  endif()
-endif()
+set(EGL_PLATFORM_SOURCES ${CMAKE_CURRENT_LIST_DIR}/src/egl_3ds_stub.cpp)
 
 set(EGL_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/src/egl.c
