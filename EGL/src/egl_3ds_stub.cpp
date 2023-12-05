@@ -64,8 +64,8 @@ EGLBoolean __makeCurrent(const EGLDisplayImpl* walkerDpy, const NativeSurfaceCon
 
 EGLBoolean __swapBuffers(const EGLDisplayImpl* walkerDpy, const EGLSurfaceImpl* walkerSurface)
 {
-    void pglSwapBuffers();
-    return EGL_FALSE;
+    pglSwapBuffers();
+    return EGL_TRUE;
 }
 
 EGLBoolean __swapInterval(const EGLDisplayImpl* walkerDpy, EGLint interval)
