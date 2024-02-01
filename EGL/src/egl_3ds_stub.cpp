@@ -1,15 +1,71 @@
 #include "egl_internal.h"
 #include "GL/picaGL.h"
 
-#if defined(EGL_NO_GLEW)
+typedef GLXContext (*__PFN_glXCreateContextAttribsARB)(Display*, GLXFBConfig,
+                                                       GLXContext, Bool,
+                                                       const int*);
+typedef void (*__PFN_glXSwapIntervalEXT)(Display*, GLXDrawable, int);
 typedef void(*__PFN_glFinish)();
 
+__PFN_glXCreateContextAttribsARB glXCreateContextAttribsARB_PTR = NULL;
+__PFN_glXSwapIntervalEXT glXSwapIntervalEXT_PTR = NULL;
 __PFN_glFinish glFinish_PTR = NULL;
-#endif
+
+typedef struct {
+    unsigned screen;
+} picaDisplay;
+
 
 EGLBoolean __internalInit(NativeLocalStorageContainer* nativeLocalStorageContainer, EGLint* GL_max_supported, EGLint* ES_max_supported)
 {
-    return EGL_FALSE;
+    if (nativeLocalStorageContainer->display && nativeLocalStorageContainer->window && nativeLocalStorageContainer->ctx)
+	{
+		return EGL_TRUE;
+	}
+
+	if (nativeLocalStorageContainer->display)
+	{
+		return EGL_FALSE;
+	}
+
+	if (nativeLocalStorageContainer->window)
+	{
+		return EGL_FALSE;
+	}
+
+	if (nativeLocalStorageContainer->ctx)
+	{
+		return EGL_FALSE;
+	}
+
+    nativeLocalStorageContainer->display = malloc(size_of(picaDisplay));
+    nativeLocalStorageContainer->display->screen = GFX_TOP;
+
+    if (!nativeLocalStorageContainer->display)
+	{
+		return EGL_FALSE;
+	}
+    
+    int pglMajor;
+	int pglMinor;
+
+    nativeLocalStorageContainer->window = &nativeLocalStorageContainer->display.screen;
+    
+    nativeLocalStorageContainer->ctx = *(pglGrabContext)(void); // todo: fix this
+
+	if (!nativeLocalStorageContainer->ctx)
+	{
+		nativeLocalStorageContainer->window = 0;
+        pglExit();
+		nativeLocalStorageContainer->display = 0;
+
+		return EGL_FALSE;
+	}
+
+    pglSelectScreen(nativeLocalStorageContainer->window, 0);
+    ES_max_supported[0] = 1;
+    ES_max_supported[1] = 1;
+    return EGL_TRUE;
 }
 
 EGLBoolean __internalTerminate(NativeLocalStorageContainer* nativeLocalStorageContainer)
