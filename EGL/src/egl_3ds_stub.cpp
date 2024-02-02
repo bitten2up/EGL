@@ -1,19 +1,30 @@
 #include "egl_internal.h"
 #include "GL/picaGL.h"
 
-typedef GLXContext (*__PFN_glXCreateContextAttribsARB)(Display*, GLXFBConfig,
-                                                       GLXContext, Bool,
-                                                       const int*);
-typedef void (*__PFN_glXSwapIntervalEXT)(Display*, GLXDrawable, int);
-typedef void(*__PFN_glFinish)();
+//typedef GLXContext (*__PFN_glXCreateContextAttribsARB)(Display*, GLXFBConfig,
+//                                                       GLXContext, Bool,
+//                                                       const int*);
+//typedef void (*__PFN_glXSwapIntervalEXT)(Display*, GLXDrawable, int);
+//typedef void(*__PFN_glFinish)();
 
-__PFN_glXCreateContextAttribsARB glXCreateContextAttribsARB_PTR = NULL;
-__PFN_glXSwapIntervalEXT glXSwapIntervalEXT_PTR = NULL;
-__PFN_glFinish glFinish_PTR = NULL;
+//__PFN_glXCreateContextAttribsARB glXCreateContextAttribsARB_PTR = NULL;
+//__PFN_glXSwapIntervalEXT glXSwapIntervalEXT_PTR = NULL;
+//__PFN_glFinish glFinish_PTR = NULL;
 
 typedef struct {
     unsigned screen;
 } picaDisplay;
+
+typedef struct {
+    char temp[5];
+} picaContext;
+
+
+void* picaInitContext(void)
+{
+    pglInit();
+    return malloc(sizeof(tmp)); 
+}
 
 
 EGLBoolean __internalInit(NativeLocalStorageContainer* nativeLocalStorageContainer, EGLint* GL_max_supported, EGLint* ES_max_supported)
@@ -51,7 +62,7 @@ EGLBoolean __internalInit(NativeLocalStorageContainer* nativeLocalStorageContain
 
     nativeLocalStorageContainer->window = &nativeLocalStorageContainer->display.screen;
     
-    nativeLocalStorageContainer->ctx = *(pglGrabContext)(void); // todo: fix this
+    nativeLocalStorageContainer->ctx = *(picaInitContext)(void); // todo: fix this
 
 	if (!nativeLocalStorageContainer->ctx)
 	{
@@ -70,32 +81,56 @@ EGLBoolean __internalInit(NativeLocalStorageContainer* nativeLocalStorageContain
 
 EGLBoolean __internalTerminate(NativeLocalStorageContainer* nativeLocalStorageContainer)
 {
-    return EGL_FALSE;
+    if (!nativeLocalStorageContainer)
+	{
+		return EGL_FALSE;
+	}
+
+	if (nativeLocalStorageContainer->display && nativeLocalStorageContainer->ctx)
+	{
+		free(nativeLocalStorageContainer->ctx);
+		nativeLocalStorageContainer->ctx = NULL;
+	}
+
+	if (nativeLocalStorageContainer->display && nativeLocalStorageContainer->window)
+	{
+		free(nativeLocalStorageContainer->window);
+		nativeLocalStorageContainer->window = NULL;
+	}
+
+	if (nativeLocalStorageContainer->display)
+	{
+		free(nativeLocalStorageContainer->display);
+		nativeLocalStorageContainer->display = 0;
+	}
+
+    return EGL_TRUE;
 }
 
 EGLBoolean __deleteContext(const EGLDisplayImpl* walkerDpy, const NativeContextContainer* nativeContextContainer)
 {
-    return EGL_FALSE;
+    pglExit();
+    return EGL_TRUE;
 }
 
 EGLBoolean __processAttribList(EGLenum api, EGLint* target_attrib_list, const EGLint* attrib_list, EGLint* error)
 {
-    return EGL_FALSE;
+    return EGL_TRUE;
 }
 
 EGLBoolean __createWindowSurface(EGLSurfaceImpl* newSurface, EGLNativeWindowType win, const EGLint *attrib_list, const EGLDisplayImpl* walkerDpy, const EGLConfigImpl* walkerConfig, EGLint* error)
 {
-    return EGL_FALSE;
+    return EGL_TRUE;
 }
 
 EGLBoolean __createPbufferSurface(EGLSurfaceImpl* newSurface, const EGLint* attrib_list, const EGLDisplayImpl* walkerDpy, const EGLConfigImpl* walkerConfig, EGLint* error)
 {
-    return EGL_FALSE;
+    return EGL_TRUE;
 }
 
 EGLBoolean __destroySurface(EGLNativeDisplayType dpy, const EGLSurfaceImpl* surface)
 {
-    return EGL_FALSE;
+    return EGL_TRUE;
 }
 
 __eglMustCastToProperFunctionPointerType __getProcAddress(const char *procname)
@@ -105,17 +140,17 @@ __eglMustCastToProperFunctionPointerType __getProcAddress(const char *procname)
 
 EGLBoolean __initialize(EGLDisplayImpl* walkerDpy, const NativeLocalStorageContainer* nativeLocalStorageContainer, EGLint* error)
 {
-    return EGL_FALSE;
+    return EGL_TRUE;
 }
 
 EGLBoolean __createContext(NativeContextContainer* nativeContextContainer, const EGLDisplayImpl* walkerDpy, const NativeSurfaceContainer* nativeSurfaceContainer, const NativeContextContainer* sharedNativeContextContainer, const EGLint* attribList)
 {
-    return EGL_FALSE;
+    return EGL_TRUE;
 }
 
 EGLBoolean __makeCurrent(const EGLDisplayImpl* walkerDpy, const NativeSurfaceContainer* nativeSurfaceContainer, const NativeContextContainer* nativeContextContainer)
 {
-    return EGL_FALSE;
+    return EGL_TRUE;
 }
 
 EGLBoolean __swapBuffers(const EGLDisplayImpl* walkerDpy, const EGLSurfaceImpl* walkerSurface)
@@ -126,10 +161,10 @@ EGLBoolean __swapBuffers(const EGLDisplayImpl* walkerDpy, const EGLSurfaceImpl* 
 
 EGLBoolean __swapInterval(const EGLDisplayImpl* walkerDpy, EGLint interval)
 {
-    return EGL_FALSE;
+    return EGL_TRUE;
 }
 
 EGLBoolean __getPlatformDependentHandles(void* out, const EGLDisplayImpl* walkerDpy, const NativeSurfaceContainer* nativeSurfaceContainer, const NativeContextContainer* nativeContextContainer)
 {
-    return EGL_FALSE;
+    return EGL_TRUE;
 }
