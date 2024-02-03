@@ -1,6 +1,6 @@
 #include "egl_internal.h"
 #include "GL/picaGL.h"
-
+#include <cstdlib>
 //typedef GLXContext (*__PFN_glXCreateContextAttribsARB)(Display*, GLXFBConfig,
 //                                                       GLXContext, Bool,
 //                                                       const int*);
