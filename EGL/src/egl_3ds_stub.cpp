@@ -66,7 +66,7 @@ EGLBoolean __internalInit(NativeLocalStorageContainer* nativeLocalStorageContain
 		return EGL_FALSE;
 	}
 
-    pglSelectScreen(nativeLocalStorageContainer->window, 0);
+    pglSelectScreen(nativeLocalStorageContainer->window != 0, 0);
     ES_max_supported[0] = 1;
     ES_max_supported[1] = 1;
     return EGL_TRUE;

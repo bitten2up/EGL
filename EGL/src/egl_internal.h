@@ -156,7 +156,7 @@ typedef struct _NativeContextContainer {
 
 typedef struct _NativeLocalStorageContainer {
 	void* display;
-	void* window;
+	unsigned window;
 	void* ctx;
 } NativeLocalStorageContainer;
 
