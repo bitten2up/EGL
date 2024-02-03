@@ -133,6 +133,8 @@ typedef struct _NativeLocalStorageContainer {
 
 typedef GLXPbuffer NativePbufferType;
 #elif defined (__3DS__)
+#include <GL/gl.h>
+#include <algorithm>
 #define CONTEXT_ATTRIB_LIST_SIZE 1
 
 typedef struct _NativeSurfaceContainer {
