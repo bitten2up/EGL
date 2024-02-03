@@ -137,6 +137,14 @@ typedef GLXPbuffer NativePbufferType;
 #include <algorithm>
 #define CONTEXT_ATTRIB_LIST_SIZE 1
 
+typedef struct {
+    unsigned screen;
+} picaDisplay;
+
+typedef struct {
+    char temp[5];
+} picaContext;
+
 typedef struct _NativeSurfaceContainer {
 
 } NativeSurfaceContainer;
@@ -146,7 +154,7 @@ typedef struct _NativeContextContainer {
 } NativeContextContainer;
 
 typedef struct _NativeLocalStorageContainer {
-
+	picaDisplay display;
 } NativeLocalStorageContainer;
 
 typedef void* NativePbufferType;

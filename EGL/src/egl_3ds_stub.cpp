@@ -11,15 +11,6 @@
 //__PFN_glXSwapIntervalEXT glXSwapIntervalEXT_PTR = NULL;
 //__PFN_glFinish glFinish_PTR = NULL;
 
-typedef struct {
-    unsigned screen;
-} picaDisplay;
-
-typedef struct {
-    char temp[5];
-} picaContext;
-
-
 void* picaInitContext(void)
 {
     pglInit();
