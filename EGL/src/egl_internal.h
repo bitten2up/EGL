@@ -135,6 +135,7 @@ typedef GLXPbuffer NativePbufferType;
 #elif defined (__3DS__)
 #include <GL/gl.h>
 #include <algorithm>
+#include <3ds.h>
 #define CONTEXT_ATTRIB_LIST_SIZE 1
 
 typedef struct {
@@ -155,6 +156,8 @@ typedef struct _NativeContextContainer {
 
 typedef struct _NativeLocalStorageContainer {
 	void* display;
+	void* window;
+	void* ctx;
 } NativeLocalStorageContainer;
 
 typedef void* NativePbufferType;

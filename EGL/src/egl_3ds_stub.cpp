@@ -13,8 +13,10 @@
 
 void* picaInitContext(void)
 {
+    //Initialize the LCD framebuffer
+    gfxInitDefault();
+    //Initialize picaGL
     pglInit();
-    return malloc(sizeof(tmp)); 
 }
 
 
