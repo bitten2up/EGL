@@ -154,7 +154,7 @@ typedef struct _NativeContextContainer {
 } NativeContextContainer;
 
 typedef struct _NativeLocalStorageContainer {
-	picaDisplay display;
+	void* display;
 } NativeLocalStorageContainer;
 
 typedef void* NativePbufferType;
