@@ -25,100 +25,14 @@
  */
 
 #include <EGL/egl.h>
-
-//
-// Native external implementations.
-//
-
-//
-// EGL_VERSION_1_0
-//
-
-extern EGLBoolean _eglChooseConfig (EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config);
-
-extern EGLContext _eglCreateContext (EGLDisplay dpy, EGLConfig config, EGLContext share_context, const EGLint *attrib_list);
-
-extern EGLSurface _eglCreateWindowSurface (EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, const EGLint *attrib_list);
-
-extern EGLSurface _eglCreatePbufferSurface(EGLDisplay dpy, EGLConfig config, const EGLint* attrib_list);
-
-extern EGLBoolean _eglDestroyContext (EGLDisplay dpy, EGLContext ctx);
-
-extern EGLBoolean _eglDestroySurface (EGLDisplay dpy, EGLSurface surface);
-
-extern EGLBoolean _eglGetConfigAttrib (EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *value);
-
-extern EGLBoolean _eglGetConfigs (EGLDisplay dpy, EGLConfig *configs, EGLint config_size, EGLint *num_config);
-
-extern EGLDisplay _eglGetCurrentDisplay (void);
-
-extern EGLSurface _eglGetCurrentSurface (EGLint readdraw);
-
-extern EGLDisplay _eglGetDisplay (EGLNativeDisplayType display_id);
-
-extern EGLint _eglGetError (void);
-
-extern __eglMustCastToProperFunctionPointerType _eglGetProcAddress (const char *procname);
-
-extern EGLBoolean _eglInitialize (EGLDisplay dpy, EGLint *major, EGLint *minor);
-
-extern EGLBoolean _eglMakeCurrent (EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx);
-
-extern EGLBoolean _eglQueryContext (EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *value);
-
-extern const char *_eglQueryString (EGLDisplay dpy, EGLint name);
-
-extern EGLBoolean _eglQuerySurface (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint *value);
-
-extern EGLBoolean _eglSwapBuffers (EGLDisplay dpy, EGLSurface surface);
-
-extern EGLBoolean _eglTerminate (EGLDisplay dpy);
-
-extern EGLBoolean _eglWaitNative (EGLint engine);
-
-extern EGLBoolean _eglGetPlatformDependentHandles (void* out, EGLDisplay dpy, EGLSurface surface, EGLContext ctx);
-
-//
-// EGL_VERSION_1_1
-//
-
-extern EGLBoolean _eglSwapInterval (EGLDisplay dpy, EGLint interval);
-
-//
-// EGL_VERSION_1_2
-//
-
-extern EGLBoolean _eglBindAPI (EGLenum api);
-
-extern EGLenum _eglQueryAPI (void);
-
-extern EGLBoolean _eglWaitClient (void);
-
-//
-// EGL_VERSION_1_3
-//
-
-//
-// EGL_VERSION_1_4
-//
-
-EGLContext _eglGetCurrentContext (void);
-
-//
-// EGL_VERSION_1_5
-//
-
-//
-// Wrapper.
-//
-
-//
-// EGL_VERSION_1_0
-//
+#include <GL/picaGL.h>
+#include <3ds.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 EGLAPI EGLBoolean EGLAPIENTRY eglChooseConfig (EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config)
 {
-	return _eglChooseConfig (dpy, attrib_list, configs, config_size, num_config);
+	return EGL_TRUE;
 }
 
 EGLAPI EGLBoolean EGLAPIENTRY eglCopyBuffers (EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target)
@@ -130,12 +44,13 @@ EGLAPI EGLBoolean EGLAPIENTRY eglCopyBuffers (EGLDisplay dpy, EGLSurface surface
 
 EGLAPI EGLContext EGLAPIENTRY eglCreateContext (EGLDisplay dpy, EGLConfig config, EGLContext share_context, const EGLint *attrib_list)
 {
-	return _eglCreateContext (dpy, config, share_context, attrib_list);
+  pglInit();
+	return NULL;
 }
 
 EGLAPI EGLSurface EGLAPIENTRY eglCreatePbufferSurface (EGLDisplay dpy, EGLConfig config, const EGLint *attrib_list)
 {
-	return _eglCreatePbufferSurface (dpy, config, attrib_list);
+	return EGL_NO_SURFACE;
 }
 
 EGLAPI EGLSurface EGLAPIENTRY eglCreatePixmapSurface (EGLDisplay dpy, EGLConfig config, EGLNativePixmapType pixmap, const EGLint *attrib_list)
@@ -147,91 +62,108 @@ EGLAPI EGLSurface EGLAPIENTRY eglCreatePixmapSurface (EGLDisplay dpy, EGLConfig 
 
 EGLAPI EGLSurface EGLAPIENTRY eglCreateWindowSurface (EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, const EGLint *attrib_list)
 {
-	return _eglCreateWindowSurface (dpy, config, win, attrib_list);
+	return EGL_NO_SURFACE;
 }
 
 EGLAPI EGLBoolean EGLAPIENTRY eglDestroyContext (EGLDisplay dpy, EGLContext ctx)
 {
-	return _eglDestroyContext (dpy, ctx);
+	return EGL_TRUE;
 }
 
 EGLAPI EGLBoolean EGLAPIENTRY eglDestroySurface (EGLDisplay dpy, EGLSurface surface)
 {
-	return _eglDestroySurface (dpy, surface);
+	return EGL_TRUE;
 }
 
 EGLAPI EGLBoolean EGLAPIENTRY eglGetConfigAttrib (EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *value)
 {
-	return _eglGetConfigAttrib (dpy, config, attribute, value);
+	return EGL_TRUE;
 }
 
 EGLAPI EGLBoolean EGLAPIENTRY eglGetConfigs (EGLDisplay dpy, EGLConfig *configs, EGLint config_size, EGLint *num_config)
 {
-	return _eglGetConfigs (dpy, configs, config_size, num_config);
+	return EGL_TRUE;
 }
 
 EGLAPI EGLDisplay EGLAPIENTRY eglGetCurrentDisplay (void)
 {
-	return _eglGetCurrentDisplay();
+	return EGL_NO_DISPLAY;
 }
 
 EGLAPI EGLSurface EGLAPIENTRY eglGetCurrentSurface (EGLint readdraw)
 {
-	return _eglGetCurrentSurface(readdraw);
+	return EGL_NO_SURFACE;
 }
 
 EGLAPI EGLDisplay EGLAPIENTRY eglGetDisplay (EGLNativeDisplayType display_id)
 {
-	return _eglGetDisplay (display_id);
+	return EGL_NO_DISPLAY;
 }
 
 EGLAPI EGLint EGLAPIENTRY eglGetError (void)
 {
-	return _eglGetError();
+	return 0;
 }
 
 EGLAPI __eglMustCastToProperFunctionPointerType EGLAPIENTRY eglGetProcAddress (const char *procname)
 {
-	return _eglGetProcAddress (procname);
+	return NULL;
 }
 
-EGLAPI EGLBoolean EGLAPIENTRY eglInitialize (EGLDisplay dpy, EGLint *major, EGLint *minor)
+EGLBoolean eglInitialize (EGLDisplay dpy, EGLint *major, EGLint *minor)
 {
-	return _eglInitialize (dpy, major, minor);
+	static int initialized = 0;
+
+	if (!initialized) {
+		atexit((void *) eglTerminate);
+		gfxInit(GSP_RGBA8_OES,GSP_RGB565_OES,false);
+
+		initialized = 1;
+	}
+
+	if (major)
+		*major = 1;
+	if (minor)
+		*minor = 1;
+
+	return EGL_TRUE;
 }
 
 EGLAPI EGLBoolean EGLAPIENTRY eglMakeCurrent (EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx)
 {
-	return _eglMakeCurrent (dpy, draw, read, ctx);
+	return EGL_TRUE;
 }
 
 EGLAPI EGLBoolean EGLAPIENTRY eglQueryContext (EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *value)
 {
-	return _eglQueryContext (dpy, ctx, attribute, value);
+	return EGL_TRUE;
 }
 
 EGLAPI const char *EGLAPIENTRY eglQueryString (EGLDisplay dpy, EGLint name)
 {
-	return _eglQueryString(dpy, name);
+	return NULL;
 }
 
 EGLAPI EGLBoolean EGLAPIENTRY eglQuerySurface (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint *value)
 {
-	return _eglQuerySurface (dpy, surface, attribute, value);
+	return EGL_TRUE;
 }
 
 EGLAPI EGLBoolean EGLAPIENTRY eglSwapBuffers (EGLDisplay dpy, EGLSurface surface)
 {
-	return _eglSwapBuffers (dpy, surface);
+	// TODO: implement properly
+  pglSwapBuffers();
+	return EGL_TRUE;
 }
 
 EGLAPI EGLBoolean EGLAPIENTRY eglTerminate (EGLDisplay dpy)
 {
-	return _eglTerminate (dpy);
+	return EGL_TRUE;
 }
 
 EGLAPI EGLBoolean EGLAPIENTRY eglWaitGL (void)
 {
+#if 0
 	EGLBoolean result;
 
     EGLenum api = _eglQueryAPI();
@@ -242,12 +174,13 @@ EGLAPI EGLBoolean EGLAPIENTRY eglWaitGL (void)
 
     _eglBindAPI(api);
 
-    return result;
+#endif
+    return EGL_TRUE;
 }
 
 EGLAPI EGLBoolean EGLAPIENTRY eglWaitNative (EGLint engine)
 {
-	return _eglWaitNative (engine);
+	return EGL_TRUE;
 }
 
 //
@@ -277,7 +210,7 @@ EGLAPI EGLBoolean EGLAPIENTRY eglSurfaceAttrib (EGLDisplay dpy, EGLSurface surfa
 
 EGLAPI EGLBoolean EGLAPIENTRY eglSwapInterval (EGLDisplay dpy, EGLint interval)
 {
-	return _eglSwapInterval (dpy, interval);
+	return EGL_TRUE;
 }
 
 //
@@ -286,12 +219,12 @@ EGLAPI EGLBoolean EGLAPIENTRY eglSwapInterval (EGLDisplay dpy, EGLint interval)
 
 EGLAPI EGLBoolean EGLAPIENTRY eglBindAPI (EGLenum api)
 {
-	return _eglBindAPI (api);
+	return EGL_TRUE;
 }
 
 EGLAPI EGLenum EGLAPIENTRY eglQueryAPI (void)
 {
-	return _eglQueryAPI();
+	return EGL_TRUE;
 }
 
 EGLAPI EGLSurface EGLAPIENTRY eglCreatePbufferFromClientBuffer (EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer, EGLConfig config, const EGLint *attrib_list)
@@ -310,7 +243,7 @@ EGLAPI EGLBoolean EGLAPIENTRY eglReleaseThread (void)
 
 EGLAPI EGLBoolean EGLAPIENTRY eglWaitClient (void)
 {
-	return _eglWaitClient ();
+	return EGL_TRUE;
 }
 
 //
@@ -323,7 +256,7 @@ EGLAPI EGLBoolean EGLAPIENTRY eglWaitClient (void)
 
 EGLAPI EGLContext EGLAPIENTRY eglGetCurrentContext (void)
 {
-	return _eglGetCurrentContext();
+	return EGL_NO_CONTEXT;
 }
 
 //

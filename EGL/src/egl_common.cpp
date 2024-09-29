@@ -2053,7 +2053,7 @@ EGLDisplay _eglGetDisplay(EGLNativeDisplayType display_id)
 	newDpy->destroy = EGL_FALSE;
 #if defined(_WIN32) || defined(_WIN64)
 	newDpy->display_id = display_id ? display_id : g_globalStorage.dummy_read().hdc;
-#elif defined(__ANDROID__) || defined(ANDROID) || defined(WL_EGL_PLATFORM)
+#elif defined(__ANDROID__) || defined(ANDROID) || defined(WL_EGL_PLATFORM) || defined(__3DS__)
 	newDpy->display_id = 0;
 #else
 	newDpy->display_id = display_id ? display_id : g_globalStorage.dummy_read().display;

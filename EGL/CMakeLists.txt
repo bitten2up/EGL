@@ -5,13 +5,8 @@ if (UNIX AND NOT APPLE)
   option(EGL_UNIX_USE_WAYLAND "Define functions for Wayland platform" OFF)
 endif()
 
-set(EGL_PLATFORM_SOURCES ${CMAKE_CURRENT_LIST_DIR}/src/egl_3ds_stub.cpp)
-
 set(EGL_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/src/egl.c
-    ${CMAKE_CURRENT_LIST_DIR}/src/egl_common.cpp
-    ${EGL_PLATFORM_SOURCES}
-    ${CMAKE_CURRENT_LIST_DIR}/src/egl_internal.h
     ${CMAKE_CURRENT_LIST_DIR}/include/EGL/egl.h
     ${CMAKE_CURRENT_LIST_DIR}/include/EGL/egl.h
     ${CMAKE_CURRENT_LIST_DIR}/include/EGL/eglext.h
