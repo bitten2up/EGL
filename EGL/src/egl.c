@@ -25,10 +25,11 @@
  */
 
 #include <EGL/egl.h>
-#include <GL/picaGL.h>
+#include <GLES2/GLASS.h>
 #include <3ds.h>
 #include <stdio.h>
 #include <stdlib.h>
+EGLContext currentctx = NULL;
 
 EGLAPI EGLBoolean EGLAPIENTRY eglChooseConfig (EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config)
 {
@@ -44,8 +45,10 @@ EGLAPI EGLBoolean EGLAPIENTRY eglCopyBuffers (EGLDisplay dpy, EGLSurface surface
 
 EGLAPI EGLContext EGLAPIENTRY eglCreateContext (EGLDisplay dpy, EGLConfig config, EGLContext share_context, const EGLint *attrib_list)
 {
-  pglInit();
-	return NULL;
+	if (currentctx)
+		return currentctx;
+  currentctx = glassCreateContext();
+	return currentctx;
 }
 
 EGLAPI EGLSurface EGLAPIENTRY eglCreatePbufferSurface (EGLDisplay dpy, EGLConfig config, const EGLint *attrib_list)
@@ -67,6 +70,9 @@ EGLAPI EGLSurface EGLAPIENTRY eglCreateWindowSurface (EGLDisplay dpy, EGLConfig 
 
 EGLAPI EGLBoolean EGLAPIENTRY eglDestroyContext (EGLDisplay dpy, EGLContext ctx)
 {
+	if (ctx == NULL)
+		return EGL_FALSE;
+	glassDestroyContext(ctx);
 	return EGL_TRUE;
 }
 
@@ -122,9 +128,9 @@ EGLBoolean eglInitialize (EGLDisplay dpy, EGLint *major, EGLint *minor)
 	}
 
 	if (major)
-		*major = 1;
+		*major = 2;
 	if (minor)
-		*minor = 1;
+		*minor = 0;
 
 	return EGL_TRUE;
 }
@@ -152,7 +158,7 @@ EGLAPI EGLBoolean EGLAPIENTRY eglQuerySurface (EGLDisplay dpy, EGLSurface surfac
 EGLAPI EGLBoolean EGLAPIENTRY eglSwapBuffers (EGLDisplay dpy, EGLSurface surface)
 {
 	// TODO: implement properly
-  pglSwapBuffers();
+  glassSwapBuffers();
 	return EGL_TRUE;
 }
 
@@ -256,7 +262,7 @@ EGLAPI EGLBoolean EGLAPIENTRY eglWaitClient (void)
 
 EGLAPI EGLContext EGLAPIENTRY eglGetCurrentContext (void)
 {
-	return EGL_NO_CONTEXT;
+	return currentctx;
 }
 
 //
